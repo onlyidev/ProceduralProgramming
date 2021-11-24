@@ -6,7 +6,7 @@ EXEC=main
 TEST_IN=reads
 TEST_OUT=out
 
-main:
+main: $(FILES)
 	gcc -std=$(STD) -g -ansi -Wall -pedantic $(FILES) -o $(EXEC)	
 
 build:

@@ -3,14 +3,14 @@
  */
 
  /* 
-    Apie procesą: Klausimų proceso eigoje beveik nekilo, buvo įdomi puts funkcijos panaudojimo galimybė. neaiški situacija buvo, kai įvesties failas gale turi tuščių eilučių - feof identifikatorius tokiu atveju veikia kitaip, nei kai tuščių eilučių nėra. Taigi, teko parašyti savo funkciją isFileReadFinished, kuri tiesiogiai lygina failo deskriptorius (end pointer ir read pointer). Testavimui (ypač daliai apie tarpų invariantą) naudojau linux komandų seką:  cat ./read | grep ' ' -o | wc -l && cat ./out | grep ' ' -o | wc -l
+    Apie procesą: Klausimų proceso eigoje beveik nekilo, buvo puiko proga panaudoti scanf formatą "%n", kuris skaičiuoja kiek simbolių buvo nuskaityta.  Testavimui (ypač daliai apie tarpų invariantą) naudojau linux komandų seką:  cat ./read | grep ' ' -o | wc -l && cat ./out | grep ' ' -o | wc -l
   */
 
 #include <stdio.h>
 #include <stdlib.h>
 
 char isLetter(char a) {
-    return a != ' ' && a != '\n' && a != 0;
+    return a != ' ' && a != '\n' && a != '\t' && a != 0;
 }
 
 void printBuffer(char *buffer, FILE *f) {
@@ -55,7 +55,7 @@ int main(int argc, char *argv[]) {
 
     while(!feof(input)) {
 
-        if(fgets(buffer, 255, input) == NULL)
+        if(fgets(buffer, 256, input) == NULL)
             break;
 
         for(i = 0; buffer[i] != 0; ++i) {

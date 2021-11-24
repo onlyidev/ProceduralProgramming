@@ -15,9 +15,15 @@ char isLetter(char a) {
 
 void printBuffer(char *buffer, FILE *f) {
     int i;
+    char tempBuffer[256];
+    int buffSize = 0;
+
     for(i = 0; buffer[i] != 0; ++i)
         if(buffer[i] != -1)
-            fputc(buffer[i], f);
+            tempBuffer[buffSize++] = buffer[i];
+
+    tempBuffer[buffSize] = 0; 
+    fputs(tempBuffer, f);
 }
 
 void flagWord(char *buffer, int wordLength) {

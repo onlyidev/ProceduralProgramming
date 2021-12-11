@@ -1,38 +1,49 @@
 #include "stdmain.h"
 #include <stdlib.h>
+#include <stdio.h>
 
 List newList(void) {
 
-    List list = {NULL, 0};
+    List list = {NULL, 0, };
 
     return list;
 }
 
-ListItem *addToList(List *list, int data) {
+ListItem *getListItem(List *list, int index) {
+    int i;
 
-    ListItem *item = malloc(sizeof(ListItem));
-    item->data = data;
-    item->next = NULL;
+    index = list->size - index - 1;
 
-    if(!list->size)
-        list->begin = item;
-    else
-        getListItem(list, list->size-1)->next = item;
+    ListItem *item = list->begin;
 
-    ++list->size;
-
+    for(i = 0; i < index; ++i) 
+        item = item->next;
+        
     return item;
 }
 
-ListItem *removeFromList(List *list, int index) {
+void addToList(List *list, int data) {
+
+    ListItem *item = malloc(sizeof(ListItem));
+    item->data = data;
+    item->next = list->begin;
+
+    list->begin = item;
+
+    ++list->size;
+
+    return;
+}
+
+char removeFromList(List *list, int index) {
     if(index < 0 || index >= list->size) 
-        return NULL;
+        return 0;
 
     ListItem *prev = NULL;
     ListItem *curr = NULL;
 
-    if(index) {
-        prev = getListItem(list, index-1);
+     if(index != list->size - 1) {
+        prev = getListItem(list, index+1);
         curr = prev->next;
     }
     else 
@@ -47,16 +58,7 @@ ListItem *removeFromList(List *list, int index) {
 
     free(curr);
     
-    return list->begin;
-}
-
-ListItem *getListItem(List *list, int index) {
-    int i;
-    ListItem *item = list->begin;
-    for(i = 0; i < index; ++i) 
-        item = item->next;
-        
-    return item;
+    return 1;
 }
 
 void removeList(List *list) {
@@ -71,6 +73,25 @@ void removeList(List *list) {
     }
 
     list->begin = NULL;
+
+    return;
+}
+
+void printList(List *list) {
+    int *arr = malloc(sizeof(int) * list->size);
+    int i;
+
+    ListItem *curr = list->begin;
+
+    for(i = list->size-1; i >= 0; --i) {
+        arr[i] = curr->data;
+        curr = curr->next;
+    }
+
+    for(i = 0; i < list->size; ++i)
+        printf("Number: %d; Element: %d\n", i+1, arr[i]);
+
+    free(arr);
 
     return;
 }

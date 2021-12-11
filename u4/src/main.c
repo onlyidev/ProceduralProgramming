@@ -1,7 +1,13 @@
+/* Liudas Kasperavičius */
+/* Pati užduotis buvo aiški, todėl "įdomumas" man buvo parašyti unit testus naudojant framework'ą bei naudoti bibliotekas ir MakeFile'us. Daugiausia laiko skyriau kodavimui, buvo įdomu pabandyti ir TDD workflow (nors ne visada jo laikiausi). */
+
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
 #include "../lib/stdmain.h"
+
+
 
 int main(int argc, char *argv[]) {
     
@@ -27,17 +33,17 @@ int main(int argc, char *argv[]) {
         
 
     for(i = 0; i < num; ++i)
-        addToList(&list, rand());
+        addToList(&list, i+1);
 
     printf("Which list item should be removed? ");
     scanf("%d", &num);
 
-    if(removeFromList(&list, num-1) == NULL && list.size)
+    if(removeFromList(&list, num-1) == 0)
         printf("Sorry, but that item does not exist\n");
-
     else 
         printf("Succesfully deleted item No. %d\n", num);
 
+    printList(&list);
 
     removeList(&list);
 

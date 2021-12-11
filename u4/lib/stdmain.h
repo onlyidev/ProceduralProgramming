@@ -1,7 +1,5 @@
 #pragma once
 
-/* Documentation available at:  */
-
 typedef struct ListItem ListItem;
 
 struct ListItem {
@@ -15,7 +13,8 @@ typedef struct {
 } List;
 
 List newList(void);
-ListItem *addToList(List *, int);
-ListItem *removeFromList(List *, int);
-ListItem *getListItem(List *, int);
+void addToList(List *, int);
+char removeFromList(List *, int);
+
+void printList(List *);
 void removeList(List *);

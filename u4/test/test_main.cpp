@@ -46,34 +46,26 @@ TEST(ListAdd, correctData) {
 
     data = 6;
     addToList(&list, data);
-    EXPECT_NE(data, list.begin->data);
+    EXPECT_EQ(data, list.begin->data);
     removeList(&list);
 
 }
 
-TEST(ListAdd, correctReturn) {
-    List list = newList();
-    ListItem *item = addToList(&list, 5);
-    EXPECT_EQ(item, list.begin);
-    
-    item = addToList(&list, 5);
-    EXPECT_EQ(item, list.begin->next);
-    removeList(&list);
-}
 
 TEST(ListAdd, sizeIncrease) {
     List list = newList();
-    ListItem *item = addToList(&list, 5);
+    addToList(&list, 5);
+    
     EXPECT_EQ(list.size, 1);
     removeList(&list);
 }
 
-TEST(ListRemove, changeListDescriptor) {
+TEST(RemoveListItem, changeListDescriptor) {
     List list = newList();
     for(int i = 0; i < 3; ++i)
         addToList(&list, i);
     
-    ListItem *nth = list.begin;
+    ListItem *nth = getListItem(&list, 0);
 
     removeFromList(&list, 0);
 
@@ -82,7 +74,7 @@ TEST(ListRemove, changeListDescriptor) {
 }
 
 
-TEST(ListRemove, changeListSize) {
+TEST(RemoveListItem, changeListSize) {
     List list = newList();
     for(int i = 0; i < 3; ++i)
         addToList(&list, i);
@@ -93,7 +85,7 @@ TEST(ListRemove, changeListSize) {
     removeList(&list);
 }
 
-TEST(ListRemove, edgeCase) {
+TEST(RemoveListItem, edgeCase) {
     List list = newList();
     addToList(&list, 5);
     
@@ -103,7 +95,7 @@ TEST(ListRemove, edgeCase) {
     removeList(&list);
 }
 
-TEST(ListFree, beginPointer) {
+TEST(RemoveList, beginPointer) {
     List list = newList();
 
     addToList(&list, 1);
@@ -116,7 +108,7 @@ TEST(ListFree, beginPointer) {
     EXPECT_EQ(NULL, list.begin);
 }
 
-TEST(ListFree, sizeZero) {
+TEST(RemoveList, sizeZero) {
     List list = newList();
 
     addToList(&list, 1);
@@ -126,4 +118,23 @@ TEST(ListFree, sizeZero) {
     removeList(&list);
 
     EXPECT_EQ(list.size, 0);
+}
+
+TEST(getListItem, NonNullPointer) {
+    List list = newList();
+
+    addToList(&list, 1);
+
+    EXPECT_NE((void *) NULL, getListItem(&list, 0));
+    removeList(&list);
+}
+
+TEST(getListItem, CorrectItem) {
+    List list = newList();
+
+    addToList(&list, 1);
+    addToList(&list, 2);
+
+    EXPECT_EQ(getListItem(&list, 1)->data, 2);
+    removeList(&list);
 }

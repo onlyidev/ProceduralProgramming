@@ -18,3 +18,4 @@ char removeFromList(List *, int);
 
 void printList(List *);
 void removeList(List *);
+ListItem *getListItem(List *, int);
